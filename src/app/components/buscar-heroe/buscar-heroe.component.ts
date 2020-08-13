@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HeroesService } from "../../servicios/heroes.service";
+import { HeroesService, Heroe } from "../../servicios/heroes.service";
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-buscar-heroe',
@@ -9,11 +11,12 @@ import { HeroesService } from "../../servicios/heroes.service";
 
 export class BuscarHeroeComponent {
 
-  heroes:any[] = [];
+  heroes:Heroe[] = [];
   termino: string;
 
   constructor(private activateRoute: ActivatedRoute,
-              private _heroesService: HeroesService) { 
+              private _heroesService: HeroesService,
+              private router: Router) { 
     
   }
 
@@ -21,8 +24,13 @@ export class BuscarHeroeComponent {
     this.activateRoute.params.subscribe(params => {
       this.termino = params['nombre'];
       this.heroes = this._heroesService.buscarHeroes(params['nombre']);
-      console.log(this.heroes);
     })
+  }
+
+  public verHeroe(idx: number){
+    
+    console.log('el codigo es ' + idx)
+    this.router.navigate(['/heroe', idx]);
   }
 
 }
